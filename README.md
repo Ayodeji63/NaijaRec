@@ -11,6 +11,7 @@ With NaijaRec, we explore how LLM-powered agents can simulate realistic, cultura
 ## Contents
 
 - [Project Structure](#project-structure)
+- [Beginner Quickstart](#beginner-quickstart)
 - [Reproduction Tracks](#reproduction-tracks)
 - [External Artifacts and Google Drive](#external-artifacts-and-google-drive)
 - [Installation](#installation)
@@ -23,6 +24,34 @@ With NaijaRec, we explore how LLM-powered agents can simulate realistic, cultura
 - [Experimental Interpretation](#experimental-interpretation)
 - [Troubleshooting](#troubleshooting)
 - [Additional Documentation](#additional-documentation)
+
+## Beginner Quickstart
+
+If this is your first time running NaijaRec, follow this exact order:
+
+1. Complete [Installation](#installation).
+2. Download required artifacts from [External Artifacts and Google Drive](#external-artifacts-and-google-drive) and place them with the exact paths shown in [Required Yelp-Kimi layout](#required-yelp-kimi-layout).
+3. Configure `.env.local` using the FreeLLMAPI example in [Provider Configuration](#provider-configuration).
+4. Run [Verify the Setup](#verify-the-setup).
+5. Run the FreeLLMAPI smoke tests in [Run Fast Smoke Tests](#run-fast-smoke-tests):
+   - `SmokeFreeLLMAPINatural20`
+   - `SmokeFreeLLMAPIValidation20`
+6. If smoke tests pass, run the full 821-avatar commands in [Run the Full 821-Avatar Evaluation](#run-the-full-821-avatar-evaluation).
+
+What "smoke tests pass" means:
+
+- `storage/yelp-kimi/LightGCN/SmokeFreeLLMAPINatural20/metrics.txt` exists.
+- `storage/yelp-kimi/LightGCN/SmokeFreeLLMAPIValidation20/validation_metrics.txt` exists.
+- Natural smoke `Parse-valid rate` is typically high (the recorded run was `0.960`).
+- Natural smoke `Grounded recognition rate` should be non-zero when exposure is non-zero (the recorded run was `0.800` with 10 exposed users).
+
+What "full reproduction looks healthy" means:
+
+- Offline reranking `Exposure/Recall@20` is around `0.492` (404 of 821 users exposed in the recorded run).
+- Controlled validation tends to show strong precision/accuracy (recorded 500-avatar run: precision `0.884`, accuracy `0.835`).
+- Large natural runs usually show lower but meaningful grounded recognition (recorded 500-avatar metric-focused run: `0.582`).
+
+Because LLM routing and provider quotas vary, exact decimals can differ across runs. Large deviations are usually caused by provider instability, incorrect artifacts, or wrong flags.
 
 ## Project Structure
 
@@ -81,8 +110,8 @@ Judges may choose a track according to available time and API access:
 
 | Track                      | Provider                    | Avatars | Purpose                                        | Approximate runtime based on recorded runs |
 | -------------------------- | --------------------------- | ------: | ---------------------------------------------- | -----------------------------------------: |
-| Full natural simulation    | FreeLLMAPI                  |     821 | Reproduce end-to-end browsing behavior         |                            About 12.6 hours |
-| Full controlled validation | FreeLLMAPI                  |     821 | Reproduce preference-recognition validation    |                               About 1.3 hours |
+| Full natural simulation    | FreeLLMAPI                  |     821 | Reproduce end-to-end browsing behavior         |                           About 12.6 hours |
+| Full controlled validation | FreeLLMAPI                  |     821 | Reproduce preference-recognition validation    |                            About 1.3 hours |
 | Natural smoke test         | FreeLLMAPI, Gemini, or Groq |      20 | Confirm installation and LLM output parsing    |                         Provider dependent |
 | Validation smoke test      | FreeLLMAPI, Gemini, or Groq |      20 | Confirm validation workflow                    |                         Provider dependent |
 | Offline reranking          | No LLM required             |     821 | Reproduce top-20 retrieval/exposure evaluation |                                    Minutes |
@@ -103,16 +132,16 @@ weights, source-generation outputs, and full run artifacts are intentionally
 excluded through `.gitignore`. A judge reproducing the experiments needs at
 least the dataset bundle and the trained LightGCN checkpoint.
 
-**Before public submission, replace every placeholder below with the actual
-Google Drive sharing URL and set access to "Anyone with the link can view."**
+These links are the canonical artifact locations used for reproduction. Ensure
+Google Drive access is "Anyone with the link can view."
 
-| Download                                                                          | Required for                                                     |                 Approximate local size | Google Drive link                             |
-| --------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------: | --------------------------------------------- |
-| `datasets/yelp-kimi/` artifact bundle                                             | Every Yelp-Kimi run                                              |   57 MB total `datasets/` tree locally | `[INSERT_DATASET_GOOGLE_DRIVE_LINK]`          |
-| `recommenders/weights/yelp-kimi/` trained checkpoints                             | LightGCN runs                                                    |       22 MB total weights tree locally | `[INSERT_MODEL_WEIGHTS_GOOGLE_DRIVE_LINK]`    |
-| `storage/yelp-kimi/LightGCN/HybridRerankDiagnosticAll/rankings/`                  | Offline 821-avatar reproduction without regenerating base scores | About 31 MB for the major 821 matrices | `[INSERT_OFFLINE_RANKINGS_GOOGLE_DRIVE_LINK]` |
-| `storage/yelp-kimi/LightGCN/FreeLLMAPINatural500/` and `FreeLLMAPIValidation500/` | Inspect reported completed LLM outputs                           |       Part of 253 MB storage directory | `[INSERT_REPORTED_OUTPUTS_GOOGLE_DRIVE_LINK]` |
-| `results/` source/preprocessing products                                          | Regenerate the Yelp-Kimi adapter data                            |                                 125 MB | `[INSERT_SOURCE_RESULTS_GOOGLE_DRIVE_LINK]`   |
+| Download                                                                       | Required for                                                     |                 Approximate local size | Google Drive link                                                                                                                                                                                                                             |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------------------- | -------------------------------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `datasets/yelp-kimi/` artifact bundle                                          | Every Yelp-Kimi run                                              |   57 MB total `datasets/` tree locally | [Yelp_kimi](https://drive.google.com/drive/folders/1cMA4aME9TxTA4iymExP5JpVgplrKlfVL?usp=drive_link)                                                                                                                                          |
+| `recommenders/weights/yelp-kimi/` trained checkpoints                          | LightGCN runs                                                    |       22 MB total weights tree locally | [Weights](https://drive.google.com/drive/folders/1lTBg5yhr0iTd_4AuZtPocCqaowQmmi6n?usp=sharing)                                                                                                                                               |
+| `storage/yelp-kimi/LightGCN/HybridRerankDiagnosticAll/rankings/`               | Offline 821-avatar reproduction without regenerating base scores | About 31 MB for the major 821 matrices | [Rankings](https://drive.google.com/drive/folders/14s2WGIHAeMrhNBmwLzvA6NQc-phzJvvB?usp=sharing)                                                                                                                                              |
+| `storage/yelp-kimi/LightGCN/FreeLLMAPINatural/` and `FreeLLMAPIValidation500/` | Inspect reported completed LLM outputs                           |       Part of 253 MB storage directory | [FreeLLMAPI_Natural_Simulation](https://drive.google.com/drive/folders/1MFH1Bfdv-MK-ET3g-6GWugJu8JcXM7ld?usp=drive_link) and [FreeLLMAPI_Validation](https://drive.google.com/drive/folders/1F8PBbE6agqBUB1dtjRAU83ty_jHq4Pa4?usp=drive_link) |
+| `results/` source/preprocessing products                                       | Regenerate the Yelp-Kimi adapter data                            |                                 125 MB | [Results](https://drive.google.com/drive/folders/102UnNwd5VxrqHLBIVKcZJg4T17g_oPBa?usp=sharing)                                                                                                                                               |
 
 ### Placing downloaded artifacts
 
@@ -183,21 +212,6 @@ continue with the same NaijaRec commands.
 pip install -r requirements.txt
 ```
 
-`requirements.txt` is the simulation/research environment. It contains:
-
-| Package group                      | Why it is required                                                            |
-| ---------------------------------- | ----------------------------------------------------------------------------- |
-| `numpy`, `pandas`, `scipy`         | Dataset loading, sparse matrices, metrics, and rankings                       |
-| `matplotlib`, `seaborn`            | Figures and chapter result assets                                             |
-| `Cython`, `reckit`                 | Recommender evaluation and compiled helper extension                          |
-| `faiss-cpu`                        | Avatar memory vector index                                                    |
-| `langchain`, `langchain-community` | Avatar memory and OpenAI-compatible chat wrapper                              |
-| `langchain-google-genai`           | Gemini provider support                                                       |
-| `python-dotenv`                    | Loads private provider keys from `.env.local`                                 |
-| `sentence-transformers`            | Optional Hugging Face embedding mode; standard runs use local hash embeddings |
-| `tqdm`, `termcolor`                | Runtime progress and readable logs                                            |
-| `wandb`                            | Optional experiment tracking when `--use_wandb` is supplied                   |
-
 The API demonstration app has a separate lightweight environment in
 `requirements-api.txt`; it is not needed to reproduce the experiments.
 
@@ -232,6 +246,19 @@ EOF
 Use `--sim_embedding_provider local` with FreeLLMAPI. Local embedding mode is
 implemented inside NaijaRec and avoids requiring an embeddings endpoint from
 the gateway.
+
+Beginner readiness checklist for FreeLLMAPI:
+
+1. Confirm the gateway process is running on your configured host and port.
+2. Confirm your key is present in `.env.local`.
+3. Confirm the endpoint is reachable before long runs:
+
+```bash
+curl -sS http://localhost:3001/v1/models
+```
+
+If your gateway does not expose `/models`, run a NaijaRec smoke test command
+and confirm that it writes metrics files without connection errors.
 
 ### Gemini, allowed for smoke tests
 
