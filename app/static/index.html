@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NaijaRec Review Generator</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workbench">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Nigerian-diaspora recommender demo</p>
+            <h1>NaijaRec Review Generator</h1>
+          </div>
+          <div class="status" id="status">Ready</div>
+        </header>
+
+        <div class="grid">
+          <form id="review-form" class="panel">
+            <div class="panel-head">
+              <h2>Persona</h2>
+            </div>
+
+            <div class="preset-row">
+              <label>
+                Example input
+                <select id="example-select">
+                  <option value="0">Yoruba - pepper grill dinner</option>
+                  <option value="1">Yoruba - dessert mismatch</option>
+                  <option value="2">Yoruba - taco lunch</option>
+                  <option value="3">Igbo - hearty comfort dinner</option>
+                  <option value="4">Igbo - BBQ value test</option>
+                  <option value="5">Igbo - coffee weak fit</option>
+                  <option value="6">Hausa - halal family dinner</option>
+                  <option value="7">Hausa - alcohol risk</option>
+                  <option value="8">Hausa - rice house lunch</option>
+                  <option value="9">Balanced - sushi seafood</option>
+                  <option value="10">Balanced - falafel value</option>
+                </select>
+              </label>
+              <button class="ghost preset-load" type="button" id="load-example">Load</button>
+            </div>
+
+            <label>
+              Cultural group
+              <input name="cultural_group" value="Yoruba Nigerian diaspora" />
+            </label>
+
+            <label>
+              Taste profile
+              <textarea name="taste_profile" rows="5">I like bold pepper-forward food, generous portions, grilled meat or fish, rice dishes, good value, lively vibes, and service that feels warm but efficient.</textarea>
+            </label>
+
+            <div class="row">
+              <label>
+                Price sensitivity
+                <select name="price_sensitivity">
+                  <option value="high">High</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="low">Low</option>
+                </select>
+              </label>
+              <label>
+                Review style
+                <select name="review_style">
+                  <option value="balanced" selected>Balanced</option>
+                  <option value="yoruba">Yoruba</option>
+                  <option value="igbo">Igbo</option>
+                  <option value="hausa">Hausa</option>
+                  <option value="urban">Urban</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              Dietary context
+              <input name="dietary_context" placeholder="e.g. halal-aware, avoids alcohol-heavy venues" />
+            </label>
+
+            <label>
+              Dining context
+              <input name="dining_context" value="Dinner after work with a moderate budget" />
+            </label>
+
+            <div class="panel-head product-head">
+              <h2>New Restaurants</h2>
+              <button class="ghost" type="button" id="add-product">Add</button>
+            </div>
+
+            <div id="products"></div>
+
+            <div class="actions">
+              <button class="primary" type="submit">Generate</button>
+            </div>
+          </form>
+
+          <section class="panel results-panel">
+            <div class="panel-head">
+              <h2>Generated Reviews</h2>
+            </div>
+            <div id="summary" class="summary">Enter a persona and restaurant details, then run the deployed LightGCN reranker.</div>
+            <div id="results" class="results"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <template id="product-template">
+      <article class="product-card">
+        <div class="product-top">
+          <h3>Restaurant</h3>
+          <button class="icon remove-product" type="button" title="Remove">x</button>
+        </div>
+        <label>
+          Name
+          <input data-field="name" value="Han Dynasty" />
+        </label>
+        <label>
+          Category
+          <input data-field="category" value="Chinese, Szechuan, Restaurants" />
+        </label>
+        <div class="row">
+          <label>
+            City
+            <input data-field="city" value="Philadelphia" />
+          </label>
+          <label>
+            Price
+            <input data-field="price_range" value="2" />
+          </label>
+        </div>
+        <label>
+          Summary
+          <textarea data-field="summary" rows="4">A Szechuan restaurant known for bold heat, casual dining, and hearty dishes.</textarea>
+        </label>
+        <label>
+          Image URL
+          <input data-field="image_url" placeholder="Optional thumbnail URL" />
+        </label>
+      </article>
+    </template>
+
+    <script src="/static/app.js?v=20260522-presets"></script>
+  </body>
+</html>

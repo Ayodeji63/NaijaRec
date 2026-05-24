@@ -1,0 +1,9 @@
+services:
+  review-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      REVIEW_APP_ENV: production

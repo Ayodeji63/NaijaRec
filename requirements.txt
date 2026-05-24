@@ -1,0 +1,30 @@
+# NaijaRec simulation and research environment.
+#
+# Python 3.9 is recommended for the legacy recommender dependency `reckit`.
+# Install PyTorch separately before this file so a CPU or CUDA wheel can be
+# chosen for the judging machine:
+#   CPU: pip install torch==2.1.2 --index-url https://download.pytorch.org/whl/cpu
+
+# Data, recommendation, and evaluation
+numpy==1.26.4
+pandas==2.0.3
+scipy==1.11.1
+scikit-learn==1.3.0
+reckit==0.2.4
+Cython==3.0.0
+
+# Avatar memory and LLM providers
+faiss-cpu==1.7.4
+langchain==0.3.30
+langchain-community==0.3.31
+langchain-google-genai==2.1.12
+python-dotenv==1.2.1
+openai==1.109.1
+sentence-transformers==2.2.2
+
+# Logs, progress, and research figures
+matplotlib==3.7.2
+seaborn==0.12.2
+tqdm==4.66.1
+termcolor==2.3.0
+wandb==0.26.1
