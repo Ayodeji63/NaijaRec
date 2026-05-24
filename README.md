@@ -104,6 +104,16 @@ recommenders/weights/yelp-kimi/LightGCN/
 The three interaction split files contain 821 rows each. The persona and
 statistics CSV files contain a header plus 821 avatar records.
 
+## FreeLLMAPI Setup Guide
+
+For a detailed walkthrough on setting up **FreeLLMAPI**, refer to the GitHub repository below:
+
+[https://github.com/tashfeenahmed/freellmapi](https://github.com/tashfeenahmed/freellmapi)
+
+FreeLLMAPI was used because relying on individual free LLM providers quickly led to rate-limit issues, which disrupted the full simulation and validation runs. By using FreeLLMAPI, the system was able to complete the full run more reliably.
+
+
+
 ## Reproduction Tracks
 
 Judges may choose a track according to available time and API access:
