@@ -779,6 +779,8 @@ cd ..
 - `CHAPTER4_RESULTS_README.md`: recorded results, tables, plots, and
   interpretation.
 - `RESEARCH_README.md`: extended experimental notes.
+- [app/README.md](/home/dell/projects/Agent4Rec/app/README.md): judge-facing
+  Docker and API instructions for the submitted containerized application.
 - `WEBAPP_README.md`: optional demonstration API and deployment instructions.
 
 ## License
